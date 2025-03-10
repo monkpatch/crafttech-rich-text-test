@@ -1,33 +1,36 @@
-const Control = ({ tool, setTool }: any) => {
-  const handleOnChange = (e: any) => {
-    setTool(e.target.value)
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { type Tool } from '../../types'
+import {
+  faAdd,
+  faMousePointer,
+  IconDefinition,
+} from '@fortawesome/free-solid-svg-icons'
+import './control.scss'
+
+export type ControlProps = {
+  activeTool: Tool
+  onToolChange: (tool: Tool) => void
+}
+
+const Control = ({ activeTool, onToolChange }: ControlProps) => {
+  const toolIcons: Record<Tool, IconDefinition> = {
+    shape: faAdd,
+    cursor: faMousePointer,
   }
 
   return (
-    <div style={{ position: 'absolute', top: 0 }}>
-      <div>
-        <input
-          type="radio"
-          id="cursor"
-          name="control"
-          value="cursor"
-          checked={tool === 'cursor'}
-          onChange={handleOnChange}
-        />
-        <label htmlFor="cursor">Взаимодействие</label>
-      </div>
-
-      <div>
-        <input
-          type="radio"
-          id="shape"
-          name="control"
-          value="shape"
-          checked={tool === 'shape'}
-          onChange={handleOnChange}
-        />
-        <label htmlFor="shape">Добавление</label>
-      </div>
+    <div className="control">
+      {Object.entries(toolIcons).map(([tool, icon]) => {
+        return (
+          <button
+            onClick={() => onToolChange(tool as Tool)}
+            className={tool === activeTool ? 'active' : ''}
+            key={tool}
+          >
+            <FontAwesomeIcon icon={icon} className="button-icon" />
+          </button>
+        )
+      })}
     </div>
   )
 }

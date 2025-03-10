@@ -1,0 +1,35 @@
+.control {
+  position: fixed;
+  bottom: 0.75em;
+  padding: 0.5em;
+  background: #ddd;
+  box-shadow: 0 0.1em 0.5em 0 #ddd;
+  border-radius: 1em;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+
+  button {
+    cursor: pointer;
+    background: white;
+    &:hover {
+      background: #eee;
+    }
+    &:active {
+      transform: scale(0.95);
+    }
+    transition: 0.1s;
+    border: none;
+    height: 2.5em;
+    width: 2.5em;
+    border-radius: 0.5em;
+    &.active {
+      background: #44f;
+      svg {
+        color: white;
+      }
+    }
+  }
+}
