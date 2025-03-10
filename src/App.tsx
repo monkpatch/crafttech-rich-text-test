@@ -9,7 +9,7 @@ function App() {
   const stageRef = useRef(null)
   return (
     <>
-      <Canvas tool={tool} stageRef={stageRef} />
+      <Canvas activeTool={tool} stageRef={stageRef} />
       <Control activeTool={tool} onToolChange={setTool} />
     </>
   )

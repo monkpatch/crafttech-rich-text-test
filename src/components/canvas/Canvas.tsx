@@ -1,16 +1,23 @@
 import { useState } from 'react'
 import { Layer, Stage } from 'react-konva'
 import Shape from '../shape/Shape'
+import { Figure, Tool } from '../../types'
 
-const Canvas = ({ tool, stageRef }: any) => {
-  const [figures, setFigures] = useState<any>([])
+export type CanvasProps = {
+  activeTool: Tool
+  stageRef: Parameters<typeof Stage>[0]['ref']
+}
+
+const Canvas = ({ activeTool, stageRef }: CanvasProps) => {
+  const [figures, setFigures] = useState<Figure[]>([])
 
   const handleOnClick = (e: any) => {
-    if (tool === 'cursor') return
+    if (activeTool !== 'shape') return
+
     const stage = e.target.getStage()
     const stageOffset = stage.absolutePosition()
     const point = stage.getPointerPosition()
-    setFigures((prev: any) => [
+    setFigures((prev: Figure[]) => [
       ...prev,
       {
         id: Date.now().toString(36),
@@ -29,13 +36,15 @@ const Canvas = ({ tool, stageRef }: any) => {
     <Stage
       width={window.innerWidth}
       height={window.innerHeight}
-      draggable={tool === 'cursor'}
+      draggable={activeTool === 'cursor'}
       onClick={handleOnClick}
       ref={stageRef}
     >
       <Layer>
-        {figures.map((figure: any, i: number) => {
-          return <Shape key={i} {...figure} stageRef={stageRef} tool={tool} />
+        {figures.map((figure: Figure, i: number) => {
+          return (
+            <Shape key={i} {...figure} stageRef={stageRef} tool={activeTool} />
+          )
         })}
       </Layer>
     </Stage>
