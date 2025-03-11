@@ -6,7 +6,7 @@ import { Tool } from './types'
 import { AppStateContext } from './hooks/useAppState'
 
 function App() {
-  const [activeTool, setActiveTool] = useState<Tool>('cursor')
+  const [activeTool, setActiveTool] = useState<Tool>('shape')
   const stageRef = useRef(null)
 
   return (

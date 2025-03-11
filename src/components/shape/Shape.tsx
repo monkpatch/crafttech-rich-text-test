@@ -6,6 +6,9 @@ import { Html } from 'react-konva-utils'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { useActiveTool } from '../../hooks/useAppState'
 import { Figure } from '../../types'
+import { EditorContent, useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import './shape.scss'
 
 export type ShapeProps = {
   figure: Figure
@@ -14,6 +17,7 @@ export type ShapeProps = {
 
 const Shape = ({ figure, onFigureUpdate }: ShapeProps) => {
   const activeTool = useActiveTool()
+  const editor = useEditor({ content: figure.text, extensions: [StarterKit] })
   const [isEditing, setIsEditing] = useState(false)
 
   const groupRef = useRef<any>(null)
@@ -58,10 +62,11 @@ const Shape = ({ figure, onFigureUpdate }: ShapeProps) => {
     }
   }
 
-  const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLDivElement>) => {
     onFigureUpdate({
       ...figure,
-      text: e.target.value,
+      text: e.target.innerText,
+      html: e.target.innerHTML,
     })
   }
 
@@ -86,7 +91,17 @@ const Shape = ({ figure, onFigureUpdate }: ShapeProps) => {
         <Rect stroke={'black'} width={figure.width} height={figure.height} />
         {isEditing && (
           <Html>
-            <textarea value={figure.text} onChange={handleInput} />
+            <EditorContent
+              style={{
+                width: figure.width,
+                height: figure.height,
+                overflow: 'hidden',
+              }}
+              className="editor"
+              editor={editor}
+              content={figure.html}
+              onChange={handleChange}
+            />
           </Html>
         )}
       </Group>
