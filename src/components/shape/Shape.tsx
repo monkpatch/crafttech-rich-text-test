@@ -1,23 +1,25 @@
 import html2canvas from 'html2canvas'
 import Konva from 'konva'
-import { useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Group, Rect } from 'react-konva'
 import { Html } from 'react-konva-utils'
-import HtmlText from '../htmlText/HtmlText'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { useActiveTool } from '../../hooks/useAppState'
+import { Figure } from '../../types'
 
-const Shape = (props: any) => {
-  const { x, y, width, height, html, id, text } = props
+export type ShapeProps = {
+  figure: Figure
+  onFigureUpdate: (figure: Figure) => void
+}
+
+const Shape = ({ figure, onFigureUpdate }: ShapeProps) => {
   const activeTool = useActiveTool()
   const [isEditing, setIsEditing] = useState(false)
-  const [value, setValue] = useState(text)
 
   const groupRef = useRef<any>(null)
   const imageRef = useRef<any>(null)
-  const htmlRef = useRef<any>(null)
   const renderImage = async () => {
-    const htmltext = document.getElementById(`htmltext_${id}`)
+    const htmltext = document.getElementById(`htmltext_${figure.id}`)
     if (htmltext) {
       const innerhtml = htmltext.innerHTML
       if (innerhtml) {
@@ -26,7 +28,7 @@ const Shape = (props: any) => {
         })
         const shape = new Konva.Image({
           x: 0,
-          y: height / 2,
+          y: figure.height / 2,
           scaleX: 1 / window.devicePixelRatio,
           scaleY: 1 / window.devicePixelRatio,
           image: canvas,
@@ -56,34 +58,38 @@ const Shape = (props: any) => {
     }
   }
 
-  const handleInput = (e: any) => {
-    setValue(e.target.value)
+  const handleInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    onFigureUpdate({
+      ...figure,
+      text: e.target.value,
+    })
   }
 
-  const handleDragEng = (_: KonvaEventObject<DragEvent>) => {
-    // e.target.x()
+  const handleDragEng = (e: KonvaEventObject<DragEvent>) => {
+    onFigureUpdate({
+      ...figure,
+      x: e.target.x(),
+      y: e.target.y(),
+    })
   }
 
   return (
     <>
       <Group
-        x={x}
-        y={y}
+        x={figure.x}
+        y={figure.y}
         onClick={handleClick}
         ref={groupRef}
         draggable
         onDragEnd={handleDragEng}
       >
-        <Rect stroke={'black'} width={width} height={height} />
+        <Rect stroke={'black'} width={figure.width} height={figure.height} />
         {isEditing && (
           <Html>
-            <textarea value={value} onChange={handleInput} />
+            <textarea value={figure.text} onChange={handleInput} />
           </Html>
         )}
       </Group>
-      <Html>
-        <HtmlText ref={htmlRef} html={html} id={id} />
-      </Html>
     </>
   )
 }

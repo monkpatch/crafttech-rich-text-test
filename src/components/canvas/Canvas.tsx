@@ -29,6 +29,15 @@ const Canvas = () => {
     ])
   }
 
+  const handleFigureUpdate = (figure: Figure) => {
+    setFigures((prev: Figure[]) => {
+      const figures = [...prev]
+      const idx = figures.findIndex((f) => f.id === figure.id)
+      if (idx >= 0) figures[idx] = figure
+      return figures
+    })
+  }
+
   return (
     <Stage
       width={window.innerWidth}
@@ -38,8 +47,14 @@ const Canvas = () => {
       ref={stageRef}
     >
       <Layer>
-        {figures.map((figure: Figure, i: number) => {
-          return <Shape key={i} {...figure} />
+        {figures.map((figure: Figure) => {
+          return (
+            <Shape
+              key={figure.id}
+              figure={figure}
+              onFigureUpdate={handleFigureUpdate}
+            />
+          )
         })}
       </Layer>
     </Stage>
