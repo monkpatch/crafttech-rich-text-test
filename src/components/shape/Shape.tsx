@@ -1,7 +1,7 @@
 import html2canvas from 'html2canvas'
 import Konva from 'konva'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { Group, Rect } from 'react-konva'
+import { ChangeEvent, FocusEvent, useEffect, useRef, useState } from 'react'
+import { Group, Image, Rect } from 'react-konva'
 import { Html } from 'react-konva-utils'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { useActiveTool } from '../../hooks/useAppState'
@@ -20,45 +20,16 @@ const Shape = ({ figure, onFigureUpdate }: ShapeProps) => {
   const editor = useEditor({ content: figure.text, extensions: [StarterKit] })
   const [isEditing, setIsEditing] = useState(false)
 
+  const editorRef = useRef<HTMLDivElement>(null)
   const groupRef = useRef<any>(null)
   const imageRef = useRef<any>(null)
-  const renderImage = async () => {
-    const htmltext = document.getElementById(`htmltext_${figure.id}`)
-    if (htmltext) {
-      const innerhtml = htmltext.innerHTML
-      if (innerhtml) {
-        const canvas = await html2canvas(htmltext, {
-          backgroundColor: 'rgba(0,0,0,0)',
-        })
-        const shape = new Konva.Image({
-          x: 0,
-          y: figure.height / 2,
-          scaleX: 1 / window.devicePixelRatio,
-          scaleY: 1 / window.devicePixelRatio,
-          image: canvas,
-        })
-        groupRef.current.add(shape)
-        imageRef.current = shape
-      } else return
-    } else return
-  }
 
-  useEffect(() => {
-    renderImage()
-  }, [])
-
-  const handleClick = () => {
+  const handleClick = async () => {
     if (activeTool === 'shape') {
       return
     } else {
-      setIsEditing((prev) => !prev)
-      if (imageRef.current) {
-        if (isEditing) {
-          imageRef.current.show()
-        } else {
-          imageRef.current.hide()
-        }
-      } else return
+      setIsEditing(true)
+      editor?.commands.focus()
     }
   }
 
@@ -78,6 +49,14 @@ const Shape = ({ figure, onFigureUpdate }: ShapeProps) => {
     })
   }
 
+  const handleBlur = async (e: FocusEvent<HTMLDivElement>) => {
+    const canvas = await html2canvas(e.target, {
+      backgroundColor: 'transparent',
+    })
+    imageRef.current = canvas
+    setIsEditing(false)
+  }
+
   return (
     <>
       <Group
@@ -88,21 +67,30 @@ const Shape = ({ figure, onFigureUpdate }: ShapeProps) => {
         draggable
         onDragEnd={handleDragEng}
       >
-        <Rect stroke={'black'} width={figure.width} height={figure.height} />
-        {isEditing && (
+        <Rect
+          stroke={'black'}
+          strokeWidth={2}
+          width={figure.width}
+          height={figure.height}
+        />
+        {isEditing ? (
           <Html>
             <EditorContent
               style={{
-                width: figure.width,
-                height: figure.height,
-                overflow: 'hidden',
+                width: figure.width - 8,
+                height: figure.height - 8,
               }}
+              spellCheck={false}
               className="editor"
               editor={editor}
+              ref={editorRef}
               content={figure.html}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
           </Html>
+        ) : (
+          <Image image={imageRef.current} x={4} y={3}></Image>
         )}
       </Group>
     </>
