@@ -1,16 +1,20 @@
 import { useRef, useState } from 'react'
 import './App.css'
 import Canvas from './components/canvas/Canvas'
-import Control from './components/control/Control'
+import ToolPicker from './components/toolPicker/ToolPicker.tsx'
 import { Tool } from './types'
+import { AppStateContext } from './hooks/useAppState'
 
 function App() {
-  const [tool, setTool] = useState<Tool>('cursor')
+  const [activeTool, setActiveTool] = useState<Tool>('cursor')
   const stageRef = useRef(null)
+
   return (
     <>
-      <Canvas activeTool={tool} stageRef={stageRef} />
-      <Control activeTool={tool} onToolChange={setTool} />
+      <AppStateContext.Provider value={{ activeTool, stageRef }}>
+        <Canvas />
+        <ToolPicker onToolChange={setActiveTool} />
+      </AppStateContext.Provider>
     </>
   )
 }

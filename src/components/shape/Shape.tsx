@@ -4,9 +4,12 @@ import { useEffect, useRef, useState } from 'react'
 import { Group, Rect } from 'react-konva'
 import { Html } from 'react-konva-utils'
 import HtmlText from '../htmlText/HtmlText'
+import { KonvaEventObject } from 'konva/lib/Node'
+import { useActiveTool } from '../../hooks/useAppState'
 
 const Shape = (props: any) => {
-  const { x, y, width, height, tool, html, id, text } = props
+  const { x, y, width, height, html, id, text } = props
+  const activeTool = useActiveTool()
   const [isEditing, setIsEditing] = useState(false)
   const [value, setValue] = useState(text)
 
@@ -39,7 +42,7 @@ const Shape = (props: any) => {
   }, [])
 
   const handleClick = () => {
-    if (tool === 'shape') {
+    if (activeTool === 'shape') {
       return
     } else {
       setIsEditing((prev) => !prev)
@@ -57,9 +60,20 @@ const Shape = (props: any) => {
     setValue(e.target.value)
   }
 
+  const handleDragEng = (_: KonvaEventObject<DragEvent>) => {
+    // e.target.x()
+  }
+
   return (
     <>
-      <Group x={x} y={y} onClick={handleClick} ref={groupRef} draggable>
+      <Group
+        x={x}
+        y={y}
+        onClick={handleClick}
+        ref={groupRef}
+        draggable
+        onDragEnd={handleDragEng}
+      >
         <Rect stroke={'black'} width={width} height={height} />
         {isEditing && (
           <Html>

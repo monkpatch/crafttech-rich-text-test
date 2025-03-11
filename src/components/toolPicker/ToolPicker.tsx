@@ -5,14 +5,16 @@ import {
   faMousePointer,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
-import './control.scss'
+import './toolPicker.scss'
+import { useActiveTool } from '../../hooks/useAppState'
 
 export type ControlProps = {
-  activeTool: Tool
   onToolChange: (tool: Tool) => void
 }
 
-const Control = ({ activeTool, onToolChange }: ControlProps) => {
+const ToolPicker = ({ onToolChange }: ControlProps) => {
+  const activeTool = useActiveTool()
+
   const toolIcons: Record<Tool, IconDefinition> = {
     shape: faAdd,
     cursor: faMousePointer,
@@ -35,4 +37,4 @@ const Control = ({ activeTool, onToolChange }: ControlProps) => {
   )
 }
 
-export default Control
+export default ToolPicker

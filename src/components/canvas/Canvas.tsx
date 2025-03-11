@@ -1,15 +1,12 @@
 import { useState } from 'react'
 import { Layer, Stage } from 'react-konva'
 import Shape from '../shape/Shape'
-import { Figure, Tool } from '../../types'
+import { Figure } from '../../types'
+import { useAppState } from '../../hooks/useAppState'
 
-export type CanvasProps = {
-  activeTool: Tool
-  stageRef: Parameters<typeof Stage>[0]['ref']
-}
-
-const Canvas = ({ activeTool, stageRef }: CanvasProps) => {
+const Canvas = () => {
   const [figures, setFigures] = useState<Figure[]>([])
+  const { activeTool, stageRef } = useAppState()
 
   const handleOnClick = (e: any) => {
     if (activeTool !== 'shape') return
@@ -42,9 +39,7 @@ const Canvas = ({ activeTool, stageRef }: CanvasProps) => {
     >
       <Layer>
         {figures.map((figure: Figure, i: number) => {
-          return (
-            <Shape key={i} {...figure} stageRef={stageRef} tool={activeTool} />
-          )
+          return <Shape key={i} {...figure} />
         })}
       </Layer>
     </Stage>
