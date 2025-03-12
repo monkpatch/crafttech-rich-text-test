@@ -1,19 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { type Tool } from '../../types'
 import {
   faAdd,
   faMousePointer,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
-import './toolPicker.scss'
-import { useActiveTool } from '../../hooks/useAppState'
+import { $activeTool, setActiveTool, Tool } from '../../entities/tool'
+import { useUnit } from 'effector-react'
+import './ToolPicker.scss'
 
-export type ControlProps = {
-  onToolChange: (tool: Tool) => void
-}
-
-const ToolPicker = ({ onToolChange }: ControlProps) => {
-  const activeTool = useActiveTool()
+export const ToolPicker = () => {
+  const activeTool = useUnit($activeTool)
 
   const toolIcons: Record<Tool, IconDefinition> = {
     shape: faAdd,
@@ -21,11 +17,11 @@ const ToolPicker = ({ onToolChange }: ControlProps) => {
   }
 
   return (
-    <div className="control">
+    <div className="tool-picker">
       {Object.entries(toolIcons).map(([tool, icon]) => {
         return (
           <button
-            onClick={() => onToolChange(tool as Tool)}
+            onClick={() => setActiveTool(tool as Tool)}
             className={tool === activeTool ? 'active' : ''}
             key={tool}
           >
