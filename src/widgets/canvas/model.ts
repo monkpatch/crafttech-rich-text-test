@@ -6,8 +6,8 @@ import {
   restore,
   sample,
 } from 'effector'
-import { Figure, FigureID } from '../../entities/figure'
-import { $activeTool } from '../../entities/tool'
+import { Figure, FigureID } from '@/entities/figure'
+import { $activeTool } from '@/entities/tool'
 
 const LOCAL_STORAGE_FIGURES_KEY = 'figures'
 

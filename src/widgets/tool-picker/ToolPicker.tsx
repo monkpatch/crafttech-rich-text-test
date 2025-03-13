@@ -4,7 +4,7 @@ import {
   faMousePointer,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
-import { $activeTool, setActiveTool, Tool } from '../../entities/tool'
+import { $activeTool, setActiveTool, Tool } from '@/entities/tool'
 import { useUnit } from 'effector-react'
 import './ToolPicker.scss'
 

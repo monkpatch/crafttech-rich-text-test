@@ -17,6 +17,7 @@
     "@tiptap/pm": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
+    "@types/node": "^22.13.10",
     "classnames": "^2.5.1",
     "effector": "^23.3.0",
     "effector-react": "^23.3.0",

@@ -8,9 +8,9 @@ import {
   setFigure,
 } from './model'
 import { useUnit } from 'effector-react'
-import { $activeTool } from '../../entities/tool'
+import { $activeTool } from '@/entities/tool'
 import Konva from 'konva'
-import { FigureView } from '../../features/figure-view'
+import { FigureView } from '@/features/figure-view'
 
 export const Canvas = () => {
   const activeTool = useUnit($activeTool)

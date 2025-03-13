@@ -6,7 +6,7 @@ import { KonvaEventObject } from 'konva/lib/Node'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Konva from 'konva'
-import { Figure } from '../../../entities/figure'
+import { Figure } from '@/entities/figure'
 import { RichTextTooltip } from './RichTextTooltip'
 import './FigureView.scss'
 
