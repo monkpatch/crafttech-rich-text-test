@@ -35,8 +35,8 @@ export const Canvas = () => {
 
     addFigure({
       id: id,
-      width: 100,
-      height: 100,
+      width: 256,
+      height: 256,
       type: 'rect',
       x: point.x - stageOffset.x,
       y: point.y - stageOffset.y,
