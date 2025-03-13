@@ -4,6 +4,7 @@ import {
   $activeFigureID,
   $figures,
   addFigure,
+  removeFigure,
   setActiveFigureID,
   setFigure,
 } from './model'
@@ -11,6 +12,7 @@ import { useUnit } from 'effector-react'
 import { $activeTool } from '@/entities/tool'
 import Konva from 'konva'
 import { FigureView } from '@/features/figure-view'
+import { Figure } from '@/entities/figure'
 
 export const Canvas = () => {
   const activeTool = useUnit($activeTool)
@@ -45,6 +47,17 @@ export const Canvas = () => {
     setActiveFigureID(id)
   }
 
+  const handleFocus = (figure: Figure) => {
+    if (activeTool === 'delete') {
+      removeFigure(figure.id)
+      return
+    }
+    if (activeTool === 'cursor') {
+      setActiveFigureID(figure.id)
+      return
+    }
+  }
+
   return (
     <Stage
       width={window.innerWidth}
@@ -59,7 +72,7 @@ export const Canvas = () => {
             key={figure.id}
             figure={figure}
             onChange={setFigure}
-            onFocus={() => setActiveFigureID(figure.id)}
+            onFocus={handleFocus}
             isActive={figure.id === activeFigureID}
           />
         ))}

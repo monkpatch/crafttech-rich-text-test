@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAdd,
   faMousePointer,
+  faTrash,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
 import { $activeTool, setActiveTool, Tool } from '@/entities/tool'
@@ -14,6 +15,7 @@ export const ToolPicker = () => {
   const toolIcons: Record<Tool, IconDefinition> = {
     shape: faAdd,
     cursor: faMousePointer,
+    delete: faTrash,
   }
 
   return (
