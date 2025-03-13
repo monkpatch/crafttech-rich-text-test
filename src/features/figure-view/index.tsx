@@ -1,1 +1,1 @@
-export * from './FigureView'
+export * from './ui'

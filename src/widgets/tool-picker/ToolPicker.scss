@@ -2,8 +2,12 @@
   position: fixed;
   bottom: 0.75em;
   padding: 0.5em;
-  background: #ddd;
-  box-shadow: 0 0.1em 0.5em 0 #ddd;
+  background: #e8e8e8;
+  box-shadow: 0 0.1em 0.2em 0 #d0d0d0;
+  &:hover {
+    box-shadow: 0 0.2em 0.4em 0 #d0d0d0;
+  }
+  transition: 0.2s;
   border-radius: 1em;
   left: 50%;
   transform: translateX(-50%);
@@ -15,7 +19,8 @@
     cursor: pointer;
     background: white;
     &:hover {
-      background: #eee;
+      /* background: #eee; */
+      box-shadow: 0 0.1em 0.5em 0 #ccc;
     }
     &:active {
       transform: scale(0.95);
@@ -25,8 +30,12 @@
     height: 2.5em;
     width: 2.5em;
     border-radius: 0.5em;
+
     &.active {
       background: #44f;
+      &:hover {
+        box-shadow: 0 0.1em 0.5em 0 #88c;
+      }
       svg {
         color: white;
       }

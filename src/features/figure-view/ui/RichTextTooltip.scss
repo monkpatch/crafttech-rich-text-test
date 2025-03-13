@@ -1,0 +1,59 @@
+.rich-text-tooltip {
+  position: absolute;
+  bottom: 0.5em;
+
+  display: flex;
+  flex-direction: row;
+
+  align-items: stretch;
+
+  background: #e8e8e8;
+  border-radius: 1em;
+
+  
+  button {
+    transition: 0.2s;
+
+    padding: 0;
+    width: 2em;
+    height: 2em;
+    border: none;
+    box-sizing: content-box;
+
+    cursor: pointer;
+
+    &:not(:first-of-type) {
+      border-left: 0.25em solid rgba(255, 255, 255, 0.5);
+    }
+
+    &:first-of-type {
+      padding-left: 0.25em;
+      border-radius: 0.5em 0 0 0.5em;
+    }
+
+    &:last-of-type {
+      padding-right: 0.25em;
+      border-radius: 0 0.5em 0.5em 0;
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 0.1em 0.25em 0 #d0d0d0;
+
+    &:hover {
+      box-shadow: 0 0.2em 0.5em 0 #d0d0d0;
+      background: #e0e0e0;
+    }
+
+    &:active {
+      background: #c0c0c0;
+    }
+
+    &.active {
+      background: #d0d0d0;
+    }
+  }
+}

@@ -31,14 +31,18 @@ export const Canvas = () => {
     const point = stage.getPointerPosition()
     if (!point) return
 
+    const id = Date.now().toString(36)
+
     addFigure({
-      id: Date.now().toString(36),
+      id: id,
       width: 100,
       height: 100,
       type: 'rect',
       x: point.x - stageOffset.x,
       y: point.y - stageOffset.y,
     })
+
+    setActiveFigureID(id)
   }
 
   return (
