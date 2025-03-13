@@ -23,7 +23,10 @@ try {
 export const $figures = createStore<Figure[]>(initialFigures)
 
 $figures.subscribe((figures) =>
-  localStorage.setItem(LOCAL_STORAGE_FIGURES_KEY, JSON.stringify(figures)),
+  localStorage.setItem(
+    LOCAL_STORAGE_FIGURES_KEY,
+    JSON.stringify(figures.map((f) => ({ ...f, image: undefined }))),
+  ),
 )
 
 export const { addFigure, setFigure, removeFigure } = createApi($figures, {
