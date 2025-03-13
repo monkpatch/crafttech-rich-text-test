@@ -1,6 +1,6 @@
-import './App.css'
 import { Canvas } from '../widgets/canvas'
 import { ToolPicker } from '../widgets/tool-picker'
+import './App.scss'
 
 function App() {
   return (
