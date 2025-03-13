@@ -26,7 +26,7 @@ export const FigureView = memo(
     )
     const editorRef = useRef<HTMLDivElement>(null)
     const groupRef = useRef<Konva.Group>(null)
-    const imageRef = useRef<HTMLImageElement | null | undefined>()
+    const imageRef = useRef<HTMLImageElement | null | undefined>(null)
     const trRef = useRef<Konva.Transformer>(null)
     const rectRef = useRef<Konva.Rect>(null)
 
@@ -70,7 +70,7 @@ export const FigureView = memo(
         })
       })
       return () => void (cancel = true)
-    }, [isActive, figure, onChange, editorRef, imageRef])
+    }, [isActive, figure, onChange, editorRef.current, imageRef.current])
 
     const handleClick = (e: KonvaEventObject<MouseEvent>) => {
       e.cancelBubble = true
