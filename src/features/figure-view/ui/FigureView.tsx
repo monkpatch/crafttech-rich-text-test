@@ -5,10 +5,10 @@ import { Html } from 'react-konva-utils'
 import { KonvaEventObject } from 'konva/lib/Node'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import './figure-view.scss'
 import Konva from 'konva'
 import { Figure } from '../../../entities/figure'
 import { RichTextTooltip } from './RichTextTooltip'
+import './FigureView.scss'
 
 export type FigureViewProps = {
   figure: Figure
