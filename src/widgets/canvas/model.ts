@@ -9,7 +9,22 @@ import {
 import { Figure, FigureID } from '../../entities/figure'
 import { $activeTool } from '../../entities/tool'
 
-export const $figures = createStore<Figure[]>([])
+const LOCAL_STORAGE_FIGURES_KEY = 'figures'
+
+let initialFigures = []
+try {
+  const savedFiguresStr = localStorage.getItem(LOCAL_STORAGE_FIGURES_KEY)
+  if (savedFiguresStr) {
+    const savedFigures = JSON.parse(savedFiguresStr)
+    initialFigures = savedFigures
+  }
+} catch (e) {}
+
+export const $figures = createStore<Figure[]>(initialFigures)
+
+$figures.subscribe((figures) =>
+  localStorage.setItem(LOCAL_STORAGE_FIGURES_KEY, JSON.stringify(figures)),
+)
 
 export const { addFigure, setFigure, removeFigure } = createApi($figures, {
   addFigure: (figures, figure: Figure) => [...figures, figure],
