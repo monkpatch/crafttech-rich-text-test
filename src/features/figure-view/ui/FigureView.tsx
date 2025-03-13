@@ -1,5 +1,5 @@
 import html2canvas from 'html2canvas'
-import { ChangeEvent, memo, useEffect, useRef } from 'react'
+import { ChangeEvent, FocusEvent, memo, useEffect, useRef } from 'react'
 import { Group, Image, Rect, Transformer } from 'react-konva'
 import { Html } from 'react-konva-utils'
 import { KonvaEventObject } from 'konva/lib/Node'
@@ -81,8 +81,13 @@ export const FigureView = memo(
       onFocus?.(figure)
     }
 
-    const handleBlur = () => {
+    const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
       imageRef.current = null
+      onChange?.({
+        ...figure,
+        text: e.target.innerText,
+        html: e.target.innerHTML,
+      })
       onBlur?.(figure)
     }
 
